@@ -1,15 +1,18 @@
 package com.example.aftertest.mapper;
 
-import com.example.aftertest.entity.PUser;
+import org.apache.ibatis.annotations.Mapper;
 
-/**
-* @author yzj
-* @description 针对表【p_user】的数据库操作Mapper
-* @createDate 2023-04-29 21:36:40
-* @Entity com.example.aftertest.entity.PUser
-*/
-public interface PUserMapper {
+import java.util.List;
+import java.util.Map;
 
+@Mapper
+public interface PUserMapper  {
+
+    List<Map<String,Object>> queryPage(Map<String,String> map);
+
+    int countPage();
+
+    List<Map<String,Object>> lastOrderPage(Map<String,String> map);
 }
 
 

@@ -4,17 +4,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.aftertest.mapper.PUserMapper">
 
-    <resultMap id="BaseResultMap" type="com.example.aftertest.entity.PUser">
-            <id property="id" column="id" jdbcType="OTHER"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
-            <result property="deletedAt" column="deleted_at" jdbcType="TIMESTAMP"/>
-            <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
-            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
-    </resultMap>
+    <select id="queryPage" resultType="map" parameterType="map">
+        select pu.id,pu.nickname,pu.mobile,po.created_at,po.updated_at,po.product_name,po.total_price,po.count,po.unit_price,po.status,po.pay_type
+        from p_user pu
+        LEFT JOIN p_order po ON pu.id = po.user_id
+        limit ${page},${pers}
+    </select>
 
-    <sql id="Base_Column_List">
-        id,created_at,updated_at,
-        deleted_at,mobile,nickname
-    </sql>
+    <select id="countPage" resultType="int">
+        select count(*)
+        from p_user pu
+        LEFT JOIN p_order po ON pu.id = po.user_id
+    </select>
+
+    <select id="lastOrderPage" resultType="map" parameterType="map">
+        SELECT pu.id,pu.nickname,pu.mobile,po.created_at,po.updated_at,po.product_name,po.total_price,po.count,po.unit_price,po.status,po.pay_type
+        FROM p_user pu
+        LEFT JOIN p_order po ON pu.id = po.user_id
+        LEFT JOIN (
+            SELECT pu.id pid,MAX(po.`created_at`) maxCreated
+            FROM p_user pu
+            LEFT JOIN p_order po ON pu.id = po.user_id
+            GROUP BY pu.id
+        ) p ON p.pid = pu.id
+        WHERE p.pid=pu.id AND po.`created_at`= p.maxCreated
+        limit ${page},${pers}
+    </select>
 </mapper>

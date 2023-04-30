@@ -1,10 +1,10 @@
-package com.example.aftertest.entity;/**
-*
-* @ClassName: Response
-* @Description: TODO
-* @Author: yzj
-* @Date: 2023/4/29 21:49
-* @Version: 1.0
-*/
+package com.example.aftertest.entity;
+
+import lombok.Data;
+
+@Data
 public class Response {
+    private int code;
+    private String message;
+    private Object data;
 }

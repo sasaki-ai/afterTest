@@ -1,10 +1,12 @@
-package com.example.aftertest.service;/**
-*
-* @Name: PUserService
-* @Description: TODO
-* @Author: yzj
-* @Date: 2023/4/29 21:38
-* @Version: 1.0
-*/
+package com.example.aftertest.service;
+
+import com.example.aftertest.entity.Response;
+
+import java.util.Map;
+
 public interface PUserService {
+
+    Response OrderPage(Map<String,String> map);
+
+    Response LastOrderPage(Map<String, String> map);
 }
